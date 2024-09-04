@@ -1,1 +1,82 @@
-1
+name: RuleSet Update
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set timezone to Asia/Shanghai
+      run: |
+        sudo timedatectl set-timezone Asia/Shanghai
+    - uses: actions/checkout@v2
+    - name: "Setup sing-box"
+      env:
+        SING_BOX_DEB_URL: "https://github.com/SagerNet/sing-box/releases/download/v1.10.0-beta.5/sing-box_1.10.0-beta.5_linux_amd64.deb"
+      run: |
+          set -Eeuo pipefail
+          wget -O sing-box.deb $SING_BOX_DEB_URL
+          sudo dpkg -i sing-box.deb
+    - name: Set up Python3
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas requests pyyaml
+    - name: Set variables
+      run: |
+        echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+        echo "RELEASE_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+      shell: bash
+    - name: Download content
+      run: |
+        URL="https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt"
+        OUTPUT_FILE="./rule/adrules-dns.txt"
+
+        curl -L $URL -o $OUTPUT_FILE
+
+        if [ -f "$OUTPUT_FILE" ]; then
+          echo "Download successful: $OUTPUT_FILE"
+        else
+          echo "Download failed."
+          exit 1
+        fi
+    - name: Convert AdGuard DNS Filter to sing-box rule set
+      run: |
+        sing-box rule-set convert --type adguard --output ./rule/adrules-dns.srs ./rule/adrules-dns.txt
+    - name: Run script
+      run: python ../main.py
+      working-directory: ./rule/
+    - name: Commit and push
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git add ./rule/*.json
+        git add ./rule/*.srs
+
+        # 检查是否有文件被修改
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+          exit 0
+        else
+          git commit -m "Update RuleSets"
+          git push
+        fi
+    - name: Release
+      uses: svenstaro/upload-release-action@v2
+      with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file_glob: true
+          file: ./rule/*.srs
+          tag: ${{ env.TAG_NAME }}
+          release_name: Daily Update
+          body: Builded singbox ruleset in ${{ env.TAG_NAME }}
+          
