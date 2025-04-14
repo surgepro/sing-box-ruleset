@@ -2,10 +2,20 @@
   "rules": [
     {
       "domain": [
+        "auth.wosms.cn",
+        "config.cmpassport.com",
         "csgo.wmsj.cn",
         "dl.steam.clngaa.com",
         "dl.steam.ksyna.com",
         "dota2.wmsj.cn",
+        "enrichgw.10010.com",
+        "hmrz.wo.cn",
+        "id.mail.wo.cn",
+        "log.cmpassport.com",
+        "log1.cmpassport.com",
+        "mdn.open.wo.cn",
+        "nishub1.10010.com",
+        "opencloud.wostore.cn",
         "st.dl.bscstorage.net",
         "st.dl.eccdnx.com",
         "st.dl.pinyuncloud.com",
@@ -13,7 +23,8 @@
         "steampowered.com.8686c.com",
         "steamstatic.com.8686c.com",
         "wmsjsteam.com",
-        "xz.pphimalayanrt.com"
+        "xz.pphimalayanrt.com",
+        "ye.dun.163yun.com"
       ]
     },
     {
@@ -108,6 +119,7 @@
         "amemv.com",
         "appsimg.com",
         "appvipshop.com",
+        "auth.wo.cn",
         "autonavi.com",
         "b23.tv",
         "babytree.com",
@@ -173,6 +185,7 @@
         "cloudxns.net",
         "cm.steampowered.com",
         "cmbchina.com",
+        "cmpassport.com",
         "cn",
         "cn163.net",
         "cnblogs.com",
@@ -204,6 +217,7 @@
         "douyinvod.com",
         "douyu.com",
         "douyu.tv",
+        "douyucdn.cn",
         "douyuscdn.com",
         "douyutv.com",
         "dpfile.com",
@@ -276,6 +290,7 @@
         "hwccpc.com",
         "ibytedapm.com",
         "iciba.com",
+        "id6.me",
         "idqqimg.com",
         "iesdouyin.com",
         "ifeng.com",
@@ -364,6 +379,7 @@
         "miguvideo.com",
         "miui.com",
         "mmstat.com",
+        "mob.com",
         "mobike.com",
         "mogu.com",
         "mogucdn.com",
@@ -385,6 +401,7 @@
         "onedns.net",
         "oneplus.com",
         "onlinedown.net",
+        "open.e.189.cn",
         "oppo.com",
         "oppoer.me",
         "oppomobile.com",
